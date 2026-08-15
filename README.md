@@ -1,6 +1,6 @@
 # `accountant24-skills` plugin
 
-The built-in skills that ship with [Accountant24](https://accountant24.ai).
+The plugin contains built-in skills for [Accountant24](https://accountant24.ai).
 
 ## Skills
 
