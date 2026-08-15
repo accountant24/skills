@@ -8,6 +8,6 @@
     "url": "https://accountant24.ai"
   },
   "homepage": "https://accountant24.ai/docs/plugins",
-  "repository": "https://github.com/accountant24/accountant24-skills",
+  "repository": "https://github.com/accountant24/skills",
   "license": "Apache-2.0"
 }
