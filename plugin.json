@@ -1,13 +1,12 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "accountant24",
+  "name": "accountant24-skills",
   "version": "1.0.0",
-  "description": "The skills that come with the app: recurring spending, a subscription audit, and turning a routine you describe into a plugin of your own.",
+  "description": "A collection of built-in skills that comes with the Accountant24 app.",
   "author": {
     "name": "Accountant24",
     "url": "https://accountant24.ai"
   },
-  "homepage": "https://accountant24.ai/docs/plugins",
   "repository": "https://github.com/accountant24/skills",
   "license": "Apache-2.0"
 }
