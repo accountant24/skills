@@ -1,11 +1,5 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "accountant24-skills",
-  "description": "A collection of built-in skills that comes with the Accountant24 app.",
-  "author": {
-    "name": "Accountant24",
-    "url": "https://accountant24.ai"
-  },
-  "repository": "https://github.com/accountant24/skills",
-  "license": "Apache-2.0"
+  "description": "A collection of built-in skills that comes with the Accountant24 app."
 }
