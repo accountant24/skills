@@ -1,5 +1,5 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "accountant24-skills",
-  "description": "A collection of built-in skills that comes with the Accountant24 app."
+  "description": "A collection of skills preinstalled with the Accountant24 app."
 }
