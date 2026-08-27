@@ -1,12 +1,13 @@
 # `accountant24-skills` plugin
 
-The plugin contains the skills preinstalled with the [Accountant24](https://accountant24.ai) app.
+The built-in skills for the [Accountant24](https://accountant24.ai) agent. The app installs this plugin on first launch.
 
 ## Skills
 
+- [`create-plugin`](skills/create-plugin/SKILL.md)
+- [`docs`](skills/docs/SKILL.md)
 - [`recurring-spending`](skills/recurring-spending/SKILL.md)
 - [`subscription-audit`](skills/subscription-audit/SKILL.md)
-- [`create-plugin`](skills/create-plugin/SKILL.md)
 
 ## License
 
