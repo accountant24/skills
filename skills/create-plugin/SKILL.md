@@ -11,7 +11,7 @@ This skill covers creating a new plugin, adding a skill to a plugin the user cre
 
 Only touch plugins the user created. A plugin installed from the marketplace is listed under `plugins` in `app-settings.json` in the workspace, and a reinstall overwrites any local change to it. If the user wants an installed plugin to behave differently, create a plugin of their own instead.
 
-The full plugin guide for the running app version is in `$ACCOUNTANT24_DOCS/create-a-plugin.md`. It covers the plugin format in full, testing, publishing to the marketplace, and troubleshooting. Read it whenever you are unsure or need more detail than this skill gives, and point the user to https://accountant24.ai/docs/create-a-plugin if they want to go deeper.
+The full plugin guide for the running app version is `create-a-plugin.md` in the documentation folder given in the `<docs-folder>` block of your system prompt; open it with the `read` tool. It covers the plugin format in full, testing, publishing to the marketplace, and troubleshooting. Read it whenever you are unsure or need more detail than this skill gives, and point the user to https://accountant24.ai/docs/create-a-plugin if they want to go deeper.
 
 ## 1. Understand the routine
 

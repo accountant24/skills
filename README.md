@@ -5,7 +5,6 @@ The built-in skills for the [Accountant24](https://accountant24.ai) agent. The a
 ## Skills
 
 - [`create-plugin`](skills/create-plugin/SKILL.md)
-- [`docs`](skills/docs/SKILL.md)
 - [`recurring-spending`](skills/recurring-spending/SKILL.md)
 - [`subscription-audit`](skills/subscription-audit/SKILL.md)
 
