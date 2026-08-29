@@ -69,6 +69,30 @@ If the routine splits into several distinct tasks, write one skill per task unde
 
 When editing an existing plugin or skill, read its current files first, change only what the user asked for, and keep the rest intact.
 
-## 4. Tell the user how to start using it
+## 4. Add a helper script (optional)
+
+Most routines need no script. You already have tools to query and edit the ledger, `hledger` and `bash` for anything else, and `pdftotext` and `tesseract` for documents. Write a script only for a step none of them can do, for example a calculation over many transactions or a file format none of them reads.
+
+When a script is needed, add a Python file under `plugins/<plugin-name>/skills/<skill-name>/scripts/`. The app ships `uv`, which downloads Python once the first time a script runs and keeps it in the workspace, so the user installs nothing.
+
+Start every script with a PEP 723 header that names the Python version and pins every package it imports:
+
+```python
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["openpyxl==3.1.5"]
+# ///
+```
+
+Rules for scripts:
+
+- Take everything as command-line arguments and never prompt for input.
+- Print the result as JSON on stdout. On failure, print what went wrong on stderr and exit with a non-zero code.
+- Python only. Prefer the standard library, and add a package only when it does something the standard library cannot.
+- Pin every package to an exact version.
+
+In the skill's steps, name the exact command, run from the skill's folder: `uv run scripts/<name>.py <arguments>`, and say what to do with its output.
+
+## 5. Tell the user how to start using it
 
 The app picks up the new or changed plugin on its own. Finish by telling the user the skill is ready to use. They can ask in their own words, or type `/` in the message box and pick `plugin-name:skill-name`. The plugin is listed under Settings → Plugins. If the skill does not show up, tell the user to restart the app.
