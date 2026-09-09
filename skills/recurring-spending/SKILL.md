@@ -1,6 +1,6 @@
 ---
 name: recurring-spending
-description: Gives you an overview of everything you pay regularly, including rent, utilities, insurance, loans, phone and internet, plus subscriptions and memberships. Groups them into bills and subscriptions, shows which account or card pays each one and who in the household pays when that can be told, totals them per month and per year, shows what is due in the next 30 days and from which account, and flags price increases, several payments to the same payee, and expected payments that stopped arriving. Ask things like "what am I paying monthly", "what are my fixed costs", "which account pays the rent", "what does my partner pay for", or "what recurring payments do I have". For a cancel-focused review of just subscriptions, use the subscription-audit skill.
+description: Gives you an overview of everything you pay regularly, including rent, utilities, insurance, loans, phone and internet, plus subscriptions and memberships. Groups them into bills and subscriptions, shows which account or card pays each one and who in the household pays when that can be told, totals them per month and per year with each one's share of the total, shows what is due in the next 30 days and from which account, and flags price increases, several payments to the same payee, and expected payments that stopped arriving. Ask things like "what am I paying monthly", "what are my fixed costs", "what costs me the most", "which account pays the rent", "what does my partner pay for", or "what recurring payments do I have". For a cancel-focused review of just subscriptions, use the subscription-audit skill.
 ---
 
 # Recurring Spending
@@ -44,9 +44,9 @@ Classify each recurring charge by one test — could the user cancel it today, w
 
 ## Reporting
 
-Present two tables — bills first, then subscriptions — with the same columns:
+Present two tables — bills first, then subscriptions — each sorted by monthly-equivalent cost, with the same columns:
 
-| Payee | Paid from | Paid by | Expense account | Cadence | Amount | ≈ Monthly | Last charged | Next expected | Notes |
+| Payee | Paid from | Paid by | Expense account | Cadence | Amount | ≈ Monthly | ≈ Yearly | Share | Last charged | Next expected | Notes |
 
 - One row per payment series, not per payee: a payee charged twice a month gets two rows, so the user can see both.
 - **Payee** = the normalized payee name from the journal (spelling variants merged).
@@ -55,8 +55,11 @@ Present two tables — bills first, then subscriptions — with the same columns
 - **Expense account** = the expense account the charge posts to, as the full account name (e.g. `Expenses:Utilities`).
 - **Notes** = short flags like "amount varies", "merged from 3 spellings", or "2nd payment to this payee"; leave the cell empty when there's nothing to note.
 - Amount may be a range for variable bills ("~180–250"); use the average for the ≈ Monthly column.
+- **≈ Yearly** = the monthly equivalent × 12.
+- **Share** = the row's ≈ Yearly as a percentage of the combined yearly total of both tables, per currency, so a bill and a subscription can be compared at a glance. No Rank column: the tables are sorted by cost, so the row order is the rank.
 - After both tables, show the combined total **per month and per year** in the ledger's own currency. If several currencies appear, keep separate totals per currency; do not convert unless the user asks.
 - When at least two payers are identified, follow the totals with a small **per-payer** table — one row per person or entity plus one for "unknown", per month and per year, with bills and subscriptions combined. Skip it with one payer or none; it would add nothing.
+- When the user asks what costs the most, what the most expensive payment is, or where the money goes, answer in one sentence after the totals using the Share column: "rent and the car loan are 61% of your recurring costs; the top 5 rows make up 80%". The tables already hold the ranking; do not add a second one.
 - If the ledger shows regular income, add context: "your recurring costs are X per month, about N% of your income". Skip this silently when income is absent or ambiguous.
 - **Coming up**: list the payments expected in the next 30 days, ordered by date (next expected = last charge date + cadence), each with the account it will be taken from, so the user can check that account has enough balance.
 
