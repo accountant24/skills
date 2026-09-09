@@ -1,6 +1,6 @@
 ---
 name: subscription-audit
-description: Reviews your subscriptions and memberships, like streaming, apps, SaaS, gym, and news services. Shows what each costs per month and per year, which account or card pays for it, when it renews, and flags price increases, duplicate services, several subscriptions to the same service, forgotten charges, and subscriptions you likely cancelled. Ask things like "list my subscriptions", "what can I cancel", "which card pays for Netflix", "when does Netflix renew", or "did Spotify get more expensive". For rent, utilities, and the full recurring picture, use the recurring-spending skill.
+description: Reviews your subscriptions and memberships, like streaming, apps, SaaS, gym, and news services. Shows what each costs per month and per year, which account or card pays for it and who in the household pays when the journal says so, when it renews, and flags price increases, duplicate services, several subscriptions to the same service, forgotten charges, and subscriptions you likely cancelled. Ask things like "list my subscriptions", "what can I cancel", "which card pays for Netflix", "what does my wife pay for", "when does Netflix renew", or "did Spotify get more expensive". For rent, utilities, and the full recurring picture, use the recurring-spending skill.
 ---
 
 # Subscription Audit
@@ -30,6 +30,8 @@ A payee is not a subscription; a subscription is one regular series of charges. 
 
 Then find the account each series is paid from. The detection query shows only the expense side, so pull the full transactions for the candidate payees with the `query` tool: `report: "print"`, `payee_pattern: <candidate payees joined with |>`, `begin_date: <13 months ago>`, `output_format: "csv"`. Every posting of a transaction shares its `txnidx`; the posting on an `Assets:*` or `Liabilities:*` account is the paying account. Record it per series, as it appears in the journal (e.g. `Assets:Bank:Checking` or `Liabilities:CreditCard:Visa`). If a series moved between accounts, keep all of them with the current one first.
 
+Then find who paid, but only where the journal says so. Take it, in this order of trust, from a tag on the transaction or posting (`payer:partner`, `owner:me`), a person's name in the paying account (`Liabilities:CreditCard:Partner:Visa`), or the description (`Spotify | Family plan, partner`). Never infer a person from the amount, the day of the month, or which of two charges "looks like" the user's — a joint account or an unnamed card says nothing about the person, so leave it unknown.
+
 ## Keeping only subscriptions
 
 This skill covers services the user could cancel today, with no penalty, and keep functioning:
@@ -43,15 +45,17 @@ If the user's question is really about total monthly costs or bills, use the rec
 
 Present a single table sorted by monthly-equivalent cost:
 
-| Payee | Paid from | Expense account | Cadence | Amount | ≈ Monthly | Last charged | Next expected | Notes |
+| Payee | Paid from | Paid by | Expense account | Cadence | Amount | ≈ Monthly | Last charged | Next expected | Notes |
 
 - One row per subscription, not per payee: a service charged twice a month gets two rows, so the user can see both.
 - **Payee** = the normalized payee name from the journal (spelling variants merged).
 - **Paid from** = the asset or liability account the charge is taken from, as the full account name (e.g. `Liabilities:CreditCard:Visa`). List every account the series has used, current first, e.g. `Assets:Bank:Checking (since May), earlier Liabilities:CreditCard:Visa`. Write "unknown" when the journal has no matching asset or liability posting rather than guessing.
+- **Paid by** = the person or entity who paid, as found above, with the source when it is inferred from a name ("partner, from the account name"). Leave the cell empty when there is no evidence. Drop the column entirely when no row can be filled.
 - **Expense account** = the expense account the charge posts to, as the full account name (e.g. `Expenses:Entertainment`).
 - **Notes** = short flags like "uncertain match", "merged from 3 spellings", or "2nd subscription to this service"; leave the cell empty when there's nothing to note.
 - **Next expected** = last charge date + cadence. Flag anything more than one full cadence overdue as _probably cancelled_ — list it separately, don't count it in the totals.
 - Below the table show the total **per month and per year** in the ledger's own currency — the yearly figure is what makes people act. If several currencies appear, keep separate totals per currency; do not convert unless the user asks.
+- When at least two payers are identified, follow the totals with a small **per-payer** table — one row per person or entity plus one for "unknown", per month and per year. Skip it with one payer or none; it would add nothing.
 - When a detection is uncertain, show the evidence ("charged 12 times, same amount, about 30 days apart") so the user can judge it.
 
 After the table, call out only what's noteworthy, in this order:
