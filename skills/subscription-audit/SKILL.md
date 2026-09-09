@@ -1,6 +1,6 @@
 ---
 name: subscription-audit
-description: Reviews your subscriptions and memberships, like streaming, apps, SaaS, gym, and news services. Shows what each costs per month and per year, which account or card pays for it and who in the household pays when the journal says so, when it renews, and flags price increases, duplicate services, several subscriptions to the same service, forgotten charges, and subscriptions you likely cancelled. Ask things like "list my subscriptions", "what can I cancel", "which card pays for Netflix", "what does my wife pay for", "when does Netflix renew", or "did Spotify get more expensive". For rent, utilities, and the full recurring picture, use the recurring-spending skill.
+description: Reviews your subscriptions and memberships, like streaming, apps, SaaS, gym, and news services. Shows what each costs per month and per year and its share of the total, which account or card pays for it and who in the household pays when the journal says so, when it renews, and flags price increases, duplicate services, several subscriptions to the same service, forgotten charges, and subscriptions you likely cancelled. Ask things like "list my subscriptions", "what can I cancel", "what eats the most money", "which card pays for Netflix", "what does my wife pay for", "when does Netflix renew", or "did Spotify get more expensive". For rent, utilities, and the full recurring picture, use the recurring-spending skill.
 ---
 
 # Subscription Audit
@@ -45,7 +45,7 @@ If the user's question is really about total monthly costs or bills, use the rec
 
 Present a single table sorted by monthly-equivalent cost:
 
-| Payee | Paid from | Paid by | Expense account | Cadence | Amount | ≈ Monthly | Last charged | Next expected | Notes |
+| Payee | Paid from | Paid by | Expense account | Cadence | Amount | ≈ Monthly | ≈ Yearly | Share | Last charged | Next expected | Notes |
 
 - One row per subscription, not per payee: a service charged twice a month gets two rows, so the user can see both.
 - **Payee** = the normalized payee name from the journal (spelling variants merged).
@@ -53,9 +53,12 @@ Present a single table sorted by monthly-equivalent cost:
 - **Paid by** = the person or entity who paid, as found above, with the source when it is inferred rather than tagged ("partner, from the account name", "partner, from memory"). Leave the cell empty when there is no evidence. Drop the column entirely when no row can be filled.
 - **Expense account** = the expense account the charge posts to, as the full account name (e.g. `Expenses:Entertainment`).
 - **Notes** = short flags like "uncertain match", "merged from 3 spellings", or "2nd subscription to this service"; leave the cell empty when there's nothing to note.
+- **≈ Yearly** = the monthly equivalent × 12, so each row shows the number that makes people act.
+- **Share** = the row's ≈ Yearly as a percentage of the yearly total of active subscriptions, per currency. No Rank column: the table is sorted by cost, so the row order is the rank.
 - **Next expected** = last charge date + cadence. Flag anything more than one full cadence overdue as _probably cancelled_ — list it separately, don't count it in the totals.
 - Below the table show the total **per month and per year** in the ledger's own currency — the yearly figure is what makes people act. If several currencies appear, keep separate totals per currency; do not convert unless the user asks.
 - When at least two payers are identified, follow the totals with a small **per-payer** table — one row per person or entity plus one for "unknown", per month and per year. Skip it with one payer or none; it would add nothing.
+- When the user asks what eats the most money, where the money goes, or for the biggest subscriptions, answer in one sentence after the totals using the Share column: "the top 3 rows are 72% of your subscription spend, Spotify counted twice". The table already holds the ranking; do not add a second one.
 - When a detection is uncertain, show the evidence ("charged 12 times, same amount, about 30 days apart") so the user can judge it.
 
 After the table, call out only what's noteworthy, in this order:
