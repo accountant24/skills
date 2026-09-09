@@ -1,6 +1,6 @@
 ---
 name: subscription-audit
-description: Reviews your subscriptions and memberships, like streaming, apps, SaaS, gym, and news services. Shows what each costs per month and per year and its share of the total, which account or card pays for it and who in the household pays when the journal says so, when it renews, and flags price increases, duplicate services, several subscriptions to the same service, forgotten charges, and subscriptions you likely cancelled. Ask things like "list my subscriptions", "what can I cancel", "what eats the most money", "which card pays for Netflix", "what does my wife pay for", "when does Netflix renew", or "did Spotify get more expensive". For rent, utilities, and the full recurring picture, use the recurring-spending skill.
+description: Reviews your subscriptions and memberships, like streaming, apps, SaaS, gym, and news services. Shows what each costs per month and per year and its share of the total, which account or card pays for it and who in the household pays when the journal says so, when it renews, and flags price increases, duplicate services, several subscriptions to the same service, forgotten charges, and subscriptions you likely cancelled. Ask things like "list my subscriptions", "what can I cancel", "which subscriptions cost me the most", "which card pays for Netflix", "what does my wife pay for", "when does Netflix renew", or "did Spotify get more expensive". For rent, utilities, and the full recurring picture, use the recurring-spending skill.
 ---
 
 # Subscription Audit
@@ -58,7 +58,7 @@ Present a single table sorted by monthly-equivalent cost:
 - **Next expected** = last charge date + cadence. Flag anything more than one full cadence overdue as _probably cancelled_ — list it separately, don't count it in the totals.
 - Below the table show the total **per month and per year** in the ledger's own currency — the yearly figure is what makes people act. If several currencies appear, keep separate totals per currency; do not convert unless the user asks.
 - When at least two payers are identified, follow the totals with a small **per-payer** table — one row per person or entity plus one for "unknown", per month and per year. Skip it with one payer or none; it would add nothing.
-- When the user asks what eats the most money, where the money goes, or for the biggest subscriptions, answer in one sentence after the totals using the Share column: "the top 3 rows are 72% of your subscription spend, Spotify counted twice". The table already holds the ranking; do not add a second one.
+- When the user asks which subscriptions cost the most, what the most expensive one is, or where the money goes, answer in one sentence after the totals using the Share column: "the top 3 rows are 72% of your subscription spend, Spotify counted twice". The table already holds the ranking; do not add a second one.
 - When a detection is uncertain, show the evidence ("charged 12 times, same amount, about 30 days apart") so the user can judge it.
 
 After the table, call out only what's noteworthy, in this order:
